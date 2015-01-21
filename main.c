@@ -23,17 +23,20 @@ int main(){
   my_sprite.spritemap_pointer = (spritemap_t*)malloc(4 * 4 * 4 * sizeof(int));
 
   if(my_sprite.spritemap_pointer == NULL){
-    printf("Failed to allocate memory for the T block\n");
+    printf("Failed to allocate memory for the blocks\n");
     return EXIT_FAILURE;
   }
 
-  memcpy(my_sprite.spritemap_pointer, t_block, sizeof(t_block));
-  my_sprite.color = t_color;
+  for(int j = 0; j < 7; j++){
+
+    memcpy(my_sprite.spritemap_pointer, textronomo[j].blocks, sizeof(textronomo[j].blocks));
+    my_sprite.color = textronomo[j].color;
   
-  for(int i = 0; i < 4; i++){
-    my_sprite.rotation = i;
-    print_sprite(my_sprite);
-    printf("\n");
+    for(int j = 0; j < 4; j++){
+      my_sprite.rotation = j;
+      print_sprite(my_sprite);
+      printf("\n");
+    }
   }
 
   free(my_sprite.spritemap_pointer);
