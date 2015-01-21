@@ -16,7 +16,7 @@ int color_printf(color_t color, const char* fmt, ...){
 
   va_start(ap, fmt);
 
-  printf("\x1b[%dm", color);
+  printf("\x1b[38;5;%dm", color);
   
   retval = vprintf(fmt, ap);
 
