@@ -12,6 +12,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "color_utils.h"
+
 int main(){
-  printf("Hello World!\n");
+
+  color_printf(red, "Hello World!\n");
+  color_printf(cyan, "Hello World!\n");
+  color_printf(yellow, "Hello World!\n");
 }

@@ -1,7 +1,7 @@
-maCC=gcc
+CC=gcc
 CFLAGS=-Wall -Werror -std=c99 -g
-DEPS=
-OBJ=main.o
+DEPS=color_utils.h
+OBJ=main.o color_utils.o
 
 
 %.o: %.c $(DEPS)
