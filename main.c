@@ -13,13 +13,30 @@
 #include <string.h>
 
 #include "color_utils.h"
+#include "sprite.h"
+#include "textronomos.h"
 
 int main(){
+  
+  sprite_t my_sprite;
 
-  color_printf(red, "Hello World!\n");
-  color_printf(cyan, "Hello World!\n");
-  color_printf(yellow, "Hello World!\n");
-  color_printf(bright_yellow, "Hello World!\n");
-  color_printf(orange, "Hello World!\n");
-  color_printf(bright_orange, "Hello World!\n");
+  my_sprite.spritemap_pointer = (spritemap_t*)malloc(4 * 4 * 4 * sizeof(int));
+
+  if(my_sprite.spritemap_pointer == NULL){
+    printf("Failed to allocate memory for the T block\n");
+    return EXIT_FAILURE;
+  }
+
+  memcpy(my_sprite.spritemap_pointer, t_block, sizeof(t_block));
+  my_sprite.color = t_color;
+  
+  for(int i = 0; i < 4; i++){
+    my_sprite.rotation = i;
+    print_sprite(my_sprite);
+    printf("\n");
+  }
+
+  free(my_sprite.spritemap_pointer);
+
+  return EXIT_SUCCESS;
 }

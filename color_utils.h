@@ -1,3 +1,6 @@
+#ifndef COLOR_UTILS_H
+#define COLOR_UTILS_H
+
 /*
  * color_utils.h
  *
@@ -36,3 +39,5 @@ typedef enum {
 
 /*Like printf, but it wraps the ANSI color codes around the string.*/
 int color_printf(color_t color, const char* fmt, ...);
+
+#endif /*COLOR_UTILS_H*/
