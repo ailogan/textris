@@ -27,6 +27,8 @@ typedef struct{
   size_t height;
   sprites_t* sprites_pointer;
   size_t rotation; /*index into the spritemap.*/
+  uint8_t pos_x;
+  uint8_t pos_y;
 } sprite_t;
 
 /*Output a sprite to the screen.*/

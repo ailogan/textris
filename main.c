@@ -16,14 +16,25 @@
 
 #include "color_utils.h"
 #include "sprite.h"
+#include "playfield.h"
 #include "textronomos.h"
 #include "ansi_screen.h"
 
 int main(){
+  
+  /*
   save_screen();
   hide_cursor();
   clear_screen();
+  */
 
+  /*width, height, border width, border color*/
+  playfield_t my_playfield = init_playfield(10,20,2,red);
+  print_playfield(&my_playfield);
+
+  return EXIT_SUCCESS;
+
+  /*
   for(int j = 0; j < 7; j++){
     
     sprite_t my_sprite = init_sprite(&(textronomo[j]));
@@ -31,7 +42,7 @@ int main(){
     for(int j = 0; j < 4; j++){
       print_sprite(&my_sprite);
       rotate_cw(&my_sprite);
-      usleep(500 * 1000); /*Yaaaaaay microseconds*/
+      usleep(500 * 1000); //Yaaaaaay microseconds
 
       clear_screen();
     }
@@ -45,4 +56,5 @@ int main(){
   show_cursor();
 
   return EXIT_SUCCESS;
+*/
 }

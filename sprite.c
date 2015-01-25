@@ -85,6 +85,10 @@ sprite_t init_sprite(const piece_t* const piece){
 
   sprite.rotation = 0;
 
+  /*We need to know more about the playfield to set this up.*/
+  sprite.pos_x = 0;
+  sprite.pos_y = 0;
+
   return sprite;
 }
 
