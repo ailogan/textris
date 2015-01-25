@@ -11,13 +11,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
 
 #include "color_utils.h"
 #include "sprite.h"
 #include "textronomos.h"
+#include "ansi_screen.h"
 
 int main(){
-  
+  save_screen();
+  hide_cursor();
+  clear_screen();
+
   for(int j = 0; j < 7; j++){
     
     sprite_t my_sprite = init_sprite(&(textronomo[j]));
@@ -25,11 +31,18 @@ int main(){
     for(int j = 0; j < 4; j++){
       print_sprite(&my_sprite);
       rotate_cw(&my_sprite);
-      printf("\n");
-    }
+      usleep(500 * 1000); /*Yaaaaaay microseconds*/
 
+      clear_screen();
+    }
+    
     destruct_sprite(&my_sprite);
   }
+
+  sleep(1);
+  
+  restore_screen();
+  show_cursor();
 
   return EXIT_SUCCESS;
 }
