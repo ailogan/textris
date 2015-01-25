@@ -7,7 +7,7 @@
  * Andrew Logan
  * 1/20/15
  *
- * Sprite definitions.  Format expects them to rotate counterclockwise.
+ * Sprite definitions.  Format expects them to rotate counterclockwise, zeroth element is the shape's initial starting position.
  */
 
 #include "color_utils.h"
@@ -171,7 +171,6 @@ piece textronomo[7] = {{.name="t_block",
 				  {0,0,0,0},
 				  {0,1,1,0},
 				  {0,1,1,0}}},
-			.color=bright_yellow}
-};
+			.color=bright_yellow}};
 
 #endif /*TEXTRONOMOS_H*/
