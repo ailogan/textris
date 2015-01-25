@@ -21,7 +21,7 @@ typedef struct{
   uint8_t border_width;
   uint8_t border_color;
   
-  uint8_t* playfield_pointer;
+  color_t* playfield_pointer;
 
 } playfield_t;
 

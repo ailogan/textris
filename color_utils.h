@@ -34,7 +34,8 @@ typedef enum {
   bright_cyan,
   bright_white,
   orange   = 202,
-  bright_orange = 208
+  bright_orange = 208,
+  none = 255
 } color_t;
 
 /*Like printf, but it wraps the ANSI color codes around the string.*/
