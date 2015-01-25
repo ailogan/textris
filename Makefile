@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -Werror -std=c99 -g
-DEPS=color_utils.h playfield.h sprite.h
+DEPS=color_utils.h playfield.h sprite.h piece.h
 OBJ=main.o color_utils.o sprite.o playfield.o
 
 

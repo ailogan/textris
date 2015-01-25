@@ -10,23 +10,37 @@
 #include "sprite.h"
 
 /*Output a sprite to the screen.*/
-int print_sprite(sprite_t sprite){
+int print_sprite(const sprite_t* const sprite){
   const char* block = "[]";
   const char* empty = "  ";
 
-  if(sprite.rotation > (NUM_SPRITES - 1)){
+  /*We're about to use sprite.rotation as an index into the sprites, so make sure it's reasonable.*/
+  if(sprite->rotation > (sprite->num_sprites - 1)){
     return -1;
   }
 
-  char* line = (char*)malloc((SPRITE_Y_SIZE * strlen(empty)));
+  char* line = (char*)malloc((sprite->width * strlen(empty)));
 
   if(line == NULL){
     return -1;
   }
 
-  for(size_t i = 0; i < SPRITE_X_SIZE; i++){
-    for(size_t j = 0; j < SPRITE_Y_SIZE; j++){
-      int element = (*sprite.spritemap_pointer)[sprite.rotation][i][j];
+  size_t sprite_size = sprite->height * sprite->width;
+
+  for(size_t i = 0; i < sprite->height; i++){
+    for(size_t j = 0; j < sprite->width; j++){
+      size_t index;
+
+      /*Figure out which cell we want.  First get to the right sprite:*/
+      index = sprite_size * sprite->rotation;
+      
+      /*Then jump to the correct row:*/
+      index += (i * sprite->width);
+
+      /*And then the right column in that row:*/
+      index += j;
+      
+      uint8_t element = sprite->sprites_pointer[index];
 
       if(element == 0){
 	memcpy(&(line[j*strlen(empty)]), empty, strlen(empty));
@@ -35,7 +49,7 @@ int print_sprite(sprite_t sprite){
 	memcpy(&(line[j*strlen(block)]), block, strlen(block));
       }
     }
-    color_printf(sprite.color, "%s\n", line);
+    color_printf(sprite->color, "%s\n", line);
   }
   
   free(line);
@@ -43,22 +57,31 @@ int print_sprite(sprite_t sprite){
   return 0;
 }
 
-sprite_t init_sprite(const spritemap_t* spritemap, const size_t num_sprites, const size_t width, const size_t height, const color_t color){
+sprite_t init_sprite(const piece_t* const piece){
 
   sprite_t sprite;
-  size_t spritemap_size = num_sprites * width * height;
+  sprite.sprites_pointer = NULL;
 
-  sprite.spritemap_pointer = (spritemap_t*)calloc(spritemap_size, sizeof(uint8_t));
-
-  if(sprite.spritemap_pointer != NULL){
-    memcpy(sprite.spritemap_pointer, spritemap, spritemap_size);
+  /*Not the world's greatest way to indicate errors, but whatever.*/
+  if(piece == NULL){
+    return sprite;
   }
 
-  sprite.num_sprites = num_sprites;
-  sprite.width = height;
-  sprite.height = height;
+  size_t sprites_size = piece->num_sprites * piece->width * piece->height;
+
+  sprite.sprites_pointer = (sprites_t*)calloc(sprites_size, sizeof(uint8_t));
+
+  if(sprite.sprites_pointer == NULL){
+    return sprite;
+  }
+
+  memcpy(sprite.sprites_pointer, piece->sprites, sprites_size);
+
+  sprite.num_sprites = piece->num_sprites;
+  sprite.width = piece->width;
+  sprite.height = piece->height;
   
-  sprite.color = color;
+  sprite.color = piece->color;
 
   sprite.rotation = 0;
 
@@ -70,9 +93,9 @@ void destruct_sprite(sprite_t* sprite){
     return;
   }
 
-  if(sprite->spritemap_pointer != NULL){
-    free(sprite->spritemap_pointer);
-    sprite->spritemap_pointer = NULL;
+  if(sprite->sprites_pointer != NULL){
+    free(sprite->sprites_pointer);
+    sprite->sprites_pointer = NULL;
   }
 
   return;

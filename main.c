@@ -20,10 +20,10 @@ int main(){
   
   for(int j = 0; j < 7; j++){
     
-    sprite_t my_sprite = init_sprite(&(textronomo[j].blocks), 4, 4, 4, textronomo[j].color);
+    sprite_t my_sprite = init_sprite(&(textronomo[j]));
   
     for(int j = 0; j < 4; j++){
-      print_sprite(my_sprite);
+      print_sprite(&my_sprite);
       rotate_cw(&my_sprite);
       printf("\n");
     }

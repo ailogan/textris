@@ -15,27 +15,25 @@
 #include <stdint.h>
 
 #include "color_utils.h"
+#include "piece.h"
 
-#define NUM_SPRITES 4
-#define SPRITE_X_SIZE 4
-#define SPRITE_Y_SIZE 4
-
-typedef uint8_t spritemap_t[NUM_SPRITES][SPRITE_X_SIZE][SPRITE_Y_SIZE];
+/*Maaaaaaybe not super-thrilled about this one still.*/
+typedef uint8_t sprites_t;
 
 typedef struct{
   color_t color;
   size_t num_sprites;
   size_t width;
   size_t height;
-  spritemap_t* spritemap_pointer;
+  sprites_t* sprites_pointer;
   size_t rotation; /*index into the spritemap.*/
 } sprite_t;
 
 /*Output a sprite to the screen.*/
-int print_sprite(sprite_t sprite);
+int print_sprite(const sprite_t* const sprite);
 
 /*Initialize a sprite.  Caller is responsible for checking whether spritemap_pointer is NULL*/
-sprite_t init_sprite(const spritemap_t* spritemap, const size_t num_sprites, const size_t width, const size_t height, const color_t color);
+sprite_t init_sprite(const piece_t* const piece);
 
 /*Free all the stuff that needs freein'.*/
 void destruct_sprite(sprite_t* sprite);
