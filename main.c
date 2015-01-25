@@ -30,6 +30,14 @@ int main(){
 
   /*width, height, border width, border color*/
   playfield_t my_playfield = init_playfield(10,20,2,red);
+
+  sprite_t t_sprite = init_sprite(&(textronomo[0]));
+  sprite_t j_sprite = init_sprite(&(textronomo[1]));
+
+  blit(&my_playfield, &t_sprite, 0,0);
+
+  blit(&my_playfield, &j_sprite, 4,0);
+
   print_playfield(&my_playfield);
 
   return EXIT_SUCCESS;

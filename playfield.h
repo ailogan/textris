@@ -27,9 +27,13 @@ typedef struct{
 
 playfield_t init_playfield(const uint8_t width, const uint8_t height, const uint8_t border_width, const color_t border_color);
 
+playfield_t copy_playfield(const playfield_t * const source);
+
 void destruct_playfield(playfield_t* const p);
 
 int print_playfield(const playfield_t* const p);
+
+void blit(playfield_t * const background, const sprite_t * const sprite, const uint8_t x, const uint8_t y);
 
 
 #endif /*PLAYFIELD_H*/
