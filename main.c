@@ -9,6 +9,7 @@
  */
 
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -31,8 +32,13 @@ int main(){
 
   int collided_at_start = 0;
 
+  /*Seed the PRNG*/
+  srand(time(NULL));
+
   do{
-    sprite_t t_sprite = init_sprite(&(textronomo[0]));
+    /*Yes it's not uniform.  No, I don't care right now.*/
+    int random_piece = (rand() % 7);
+    sprite_t sprite = init_sprite(&(textronomo[random_piece]));
     
     int collision = 0;
     int sprite_x = 3;
@@ -45,7 +51,7 @@ int main(){
 
       playfield_t work_playfield = copy_playfield(&background_playfield);
       
-      collision = blit(&work_playfield, &t_sprite, sprite_x, ++sprite_y);
+      collision = blit(&work_playfield, &sprite, sprite_x, ++sprite_y);
       
       /*eg: we didn't hit a thing.*/
       if(collision == 0){
@@ -54,7 +60,7 @@ int main(){
       }
       else{
 	/*If we did hit a thing, blit the previous location into the background and don't show the new one.*/
-	blit(&background_playfield, &t_sprite, sprite_x, previous_sprite_y);
+	blit(&background_playfield, &sprite, sprite_x, previous_sprite_y);
 	clear_screen();
 	print_playfield(&background_playfield);
 	printf("hit a thing\n");
@@ -70,10 +76,11 @@ int main(){
       printf("game over\n");
     }
 
-    destruct_sprite(&t_sprite);
+    destruct_sprite(&sprite);
     
-    getchar();
   }while(collided_at_start == 0);
+
+  getchar();
 
   restore_screen();
 
