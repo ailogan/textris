@@ -44,8 +44,10 @@ playfield_t copy_playfield(const playfield_t * const source){
   }
 
   /*Nifty.  Now we throw away the default playfield and fill it with the one from source.*/
-  memcpy(dest.playfield_pointer, source->playfield_pointer, source->width * source->height);
-  
+  for(int i = 0; i < source->width * source->height; i++){
+    dest.playfield_pointer[i] = source->playfield_pointer[i];
+  }
+
   return dest;
 }
 
@@ -93,7 +95,7 @@ int print_playfield(const playfield_t* const p){
 
     /*And the border on the other side*/
     /*Each line starts with the border*/
-    for(int i = 0; i < p->border_width; i++){
+    for(int j = 0; j < p->border_width; j++){
       color_printf(p->border_color, "%s", border);
     }
 
@@ -113,13 +115,15 @@ int print_playfield(const playfield_t* const p){
   return 0;
 }
 
-/*Overlay sprite onto background.  Top corner of sprite goes at (x,y), x and y are both relative from the top left corner.  Modifies background.*/
-void blit(playfield_t * const background, const sprite_t * const sprite, const int8_t x, const int8_t y){
+/*Overlay sprite onto background.  Top corner of sprite goes at (x,y), x and y are both relative from the top left corner.  Modifies background.  Returns 1 if the sprite collided with something, returns -1 if there was an error.  0 means success.*/
+int blit(playfield_t * const background, const sprite_t * const sprite, const int8_t x, const int8_t y){
   if((x >= background->width) ||
      (y >= background->height)){
     /*Well, there you go.*/
-    return;
+    return -1;
   }
+
+  int collision = 0;
 
   const color_t sprite_color = sprite->color;
   const size_t sprite_width = sprite->width;
@@ -163,12 +167,21 @@ void blit(playfield_t * const background, const sprite_t * const sprite, const i
       }
 
       else{
-	/*Otherwise put the appropriate color in the appropriate place, overwriting whatever was there before.*/
-	/*TODO: collision detection should probably go here.*/
+	/*Otherwise put the appropriate color in the appropriate place, overwriting whatever was there before.  Check to see if we're hitting something, though.*/
+	if(background->playfield_pointer[background_idx] != none){
+	  collision = 1;
+	}
 	background->playfield_pointer[background_idx] = sprite_color;
       }
     }
+    /*TODO: Figure out collisions with the walls.  Would, unfortunately, be a lot easier if the border was part of the playfield.*/
     sprite_y++;
   }
-  return;
+  
+  /*Did the bottom of the sprite get cut off? (because we end with sprite_y++ we expect it to be equal to sprite_height if the whole thing was displayed)*/
+  if(sprite_y < sprite_height){
+    collision = 1;
+  }
+
+  return collision;
 }

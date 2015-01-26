@@ -27,22 +27,57 @@ int main(){
   clear_screen();
 
   /*width, height, border width, border color*/
-  playfield_t my_playfield = init_playfield(10,20,2,red);
+  playfield_t background_playfield = init_playfield(10,20,2,red);
 
-  sprite_t t_sprite = init_sprite(&(textronomo[0]));
+  int collided_at_start = 0;
 
-  
+  do{
+    sprite_t t_sprite = init_sprite(&(textronomo[0]));
+    
+    int collision = 0;
+    int sprite_x = 3;
 
+    int previous_sprite_y;
+    int sprite_y = -2;
+    
+    do{
+      previous_sprite_y = sprite_y;
 
-  blit(&my_playfield, &t_sprite, 3,-2);
+      playfield_t work_playfield = copy_playfield(&background_playfield);
+      
+      collision = blit(&work_playfield, &t_sprite, sprite_x, ++sprite_y);
+      
+      /*eg: we didn't hit a thing.*/
+      if(collision == 0){
+	clear_screen();
+	print_playfield(&work_playfield);
+      }
+      else{
+	/*If we did hit a thing, blit the previous location into the background and don't show the new one.*/
+	blit(&background_playfield, &t_sprite, sprite_x, previous_sprite_y);
+	clear_screen();
+	print_playfield(&background_playfield);
+	printf("hit a thing\n");
+      }
 
-  print_playfield(&my_playfield);
+      destruct_playfield(&work_playfield);
+      
+      usleep(75*1000);
+    }while(collision == 0);
 
-  getchar();
+    if(previous_sprite_y == -2){
+      collided_at_start = 1;
+      printf("game over\n");
+    }
+
+    destruct_sprite(&t_sprite);
+    
+    getchar();
+  }while(collided_at_start == 0);
 
   restore_screen();
 
-  print_playfield(&my_playfield);
+  print_playfield(&background_playfield);
 
   show_cursor();
 

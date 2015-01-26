@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Werror -std=c99 -g
+CFLAGS=-Wall -Werror -std=c89 -g
 DEPS=color_utils.h playfield.h sprite.h piece.h ansi_screen.h
 OBJ=main.o color_utils.o sprite.o playfield.o ansi_screen.o
 

@@ -34,6 +34,6 @@ void destruct_playfield(playfield_t* const p);
 
 int print_playfield(const playfield_t* const p);
 
-void blit(playfield_t * const background, const sprite_t * const sprite, const int8_t x, const int8_t y);
+int blit(playfield_t * const background, const sprite_t * const sprite, const int8_t x, const int8_t y);
 
 #endif /*PLAYFIELD_H*/
