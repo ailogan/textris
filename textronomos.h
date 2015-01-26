@@ -14,101 +14,101 @@
 #include "sprite.h"
 #include "piece.h"
 
-const uint8_t t_sprites[] = {0,0,0,0,
-			     0,0,0,0,
-			     1,1,1,0,
-			     0,1,0,0,
+const bitmap_t t_bitmaps[] = {0,0,0,0,
+			      0,0,0,0,
+			      1,1,1,0,
+			      0,1,0,0,
 			     
-			     0,0,0,0,
-			     0,1,0,0,
-			     0,1,1,0,
-			     0,1,0,0,
+			      0,0,0,0,
+			      0,1,0,0,
+			      0,1,1,0,
+			      0,1,0,0,
 			     
-			     0,0,0,0,
-			     0,0,0,0,
-			     0,1,0,0,
-			     1,1,1,0,
+			      0,0,0,0,
+			      0,0,0,0,
+			      0,1,0,0,
+			      1,1,1,0,
 			     
-			     0,0,0,0,
-			     0,1,0,0,
-			     1,1,0,0,
-			     0,1,0,0};
+			      0,0,0,0,
+			      0,1,0,0,
+			      1,1,0,0,
+			      0,1,0,0};
 
 
-const uint8_t j_sprites[] = {0,0,0,0,
-			     0,0,0,0,
-			     1,1,1,0,
-			     0,0,1,0,
+const bitmap_t j_bitmaps[] = {0,0,0,0,
+			      0,0,0,0,
+			      1,1,1,0,
+			      0,0,1,0,
 			     
-			     0,0,0,0,
-			     0,1,1,0,
-			     0,1,0,0,
-			     0,1,0,0,
+			      0,0,0,0,
+			      0,1,1,0,
+			      0,1,0,0,
+			      0,1,0,0,
 			     
-			     0,0,0,0,
-			     0,0,0,0,
-			     1,0,0,0,
-			     1,1,1,0,
+			      0,0,0,0,
+			      0,0,0,0,
+			      1,0,0,0,
+			      1,1,1,0,
 			     
-			     0,0,0,0,
-			     0,1,0,0,
-			     0,1,0,0,
-			     1,1,0,0};
+			      0,0,0,0,
+			      0,1,0,0,
+			      0,1,0,0,
+			      1,1,0,0};
 
-const uint8_t l_sprites[] = {0,0,0,0,
-			     0,0,0,0,
-			     1,1,1,0,
-			     1,0,0,0,
+const bitmap_t l_bitmaps[] = {0,0,0,0,
+			      0,0,0,0,
+			      1,1,1,0,
+			      1,0,0,0,
 			     
-			     0,0,0,0,
-			     0,1,0,0,
-			     0,1,0,0,
-			     0,1,1,0,
+			      0,0,0,0,
+			      0,1,0,0,
+			      0,1,0,0,
+			      0,1,1,0,
 			     
-			     0,0,0,0,
-			     0,0,0,0,
-			     0,0,1,0,
-			     1,1,1,0,
+			      0,0,0,0,
+			      0,0,0,0,
+			      0,0,1,0,
+			      1,1,1,0,
 			     
-			     0,0,0,0,
-			     1,1,0,0,
-			     0,1,0,0,
-			     0,1,0,0};
+			      0,0,0,0,
+			      1,1,0,0,
+			      0,1,0,0,
+			      0,1,0,0};
 
-const uint8_t z_sprites[] = {0,0,0,0,
-			     0,0,0,0,
-			     1,1,0,0,
-			     0,1,1,0,
+const bitmap_t z_bitmaps[] = {0,0,0,0,
+			      0,0,0,0,
+			      1,1,0,0,
+			      0,1,1,0,
 
-			     0,0,0,0,
-			     0,0,1,0,
-			     0,1,1,0,
-			     0,1,0,0};
+			      0,0,0,0,
+			      0,0,1,0,
+			      0,1,1,0,
+			      0,1,0,0};
 
-const uint8_t s_sprites[] = {0,0,0,0,
-			     0,0,0,0,
-			     0,1,1,0,
-			     1,1,0,0,
+const bitmap_t s_bitmaps[] = {0,0,0,0,
+			      0,0,0,0,
+			      0,1,1,0,
+			      1,1,0,0,
 
-			     0,0,0,0,
-			     0,1,0,0,
-			     0,1,1,0,
-			     0,0,1,0};
+			      0,0,0,0,
+			      0,1,0,0,
+			      0,1,1,0,
+			      0,0,1,0};
 
-const uint8_t i_sprites[] = {0,0,0,0,
-			     1,1,1,1,
-			     0,0,0,0,
-			     0,0,0,0,
+const bitmap_t i_bitmaps[] = {0,0,0,0,
+			      1,1,1,1,
+			      0,0,0,0,
+			      0,0,0,0,
 			     
-			     0,0,1,0,
-			     0,0,1,0,
-			     0,0,1,0,
-			     0,0,1,0};
+			      0,0,1,0,
+			      0,0,1,0,
+			      0,0,1,0,
+			      0,0,1,0};
 
-const uint8_t o_sprites[] = {0,0,0,0,
-			     0,0,0,0,
-			     0,1,1,0,
-			     0,1,1,0};
+const bitmap_t o_bitmaps[] = {0,0,0,0,
+			      0,0,0,0,
+			      0,1,1,0,
+			      0,1,1,0};
 
 /*So flexible arrays are totally a thing in C.  The problem shows up
   when you try to make an array of structs that contain a flexible
@@ -118,51 +118,51 @@ const uint8_t o_sprites[] = {0,0,0,0,
 
 piece_t textronomo[7] = {{.name="t_block", 
 			  .color=cyan,
-			  .num_sprites=4,
+			  .num_bitmaps=4,
 			  .width=4,
 			  .height=4,
-			  .sprites=t_sprites},
+			  .bitmaps=t_bitmaps},
 			 
 			 {.name="j_block",
 			  .color=bright_blue,
-			  .num_sprites=4,
+			  .num_bitmaps=4,
 			  .width=4,
 			  .height=4,
-			  .sprites=j_sprites},
+			  .bitmaps=j_bitmaps},
 			 
 			 {.name="l_block",
 			  .color=orange,
-			  .num_sprites=4,
+			  .num_bitmaps=4,
 			  .width=4,
 			  .height=4,
-			  .sprites=l_sprites},
+			  .bitmaps=l_bitmaps},
 			 
 			 {.name="z_block",
 			  .color=green,
-			  .num_sprites=2,
+			  .num_bitmaps=2,
 			  .width=4,
 			  .height=4,
-			  .sprites=z_sprites},
+			  .bitmaps=z_bitmaps},
 			 
 			 {.name="s_block",
 			  .color=magenta,
-			  .num_sprites=2,
+			  .num_bitmaps=2,
 			  .width=4,
 			  .height=4,
-			  .sprites=s_sprites},
+			  .bitmaps=s_bitmaps},
 			 
 			 {.name="i_block",
 			  .color=red,
-			  .num_sprites=2,
+			  .num_bitmaps=2,
 			  .width=4,
 			  .height=4,
-			  .sprites=i_sprites},
+			  .bitmaps=i_bitmaps},
 			 
 			 {.name="o_block",
 			  .color=bright_yellow,
-			  .num_sprites=1,
+			  .num_bitmaps=1,
 			  .width=4,
 			  .height=4,
-			  .sprites=o_sprites}};
+			  .bitmaps=o_bitmaps}};
 
 #endif /*TEXTRONOMOS_H*/

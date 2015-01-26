@@ -15,7 +15,7 @@ int print_sprite(const sprite_t* const sprite){
   const char* empty = "  ";
 
   /*We're about to use sprite.rotation as an index into the sprites, so make sure it's reasonable.*/
-  if(sprite->rotation > (sprite->num_sprites - 1)){
+  if(sprite->rotation > (sprite->num_bitmaps - 1)){
     return -1;
   }
 
@@ -25,22 +25,19 @@ int print_sprite(const sprite_t* const sprite){
     return -1;
   }
 
-  size_t sprite_size = sprite->height * sprite->width;
-
   for(size_t i = 0; i < sprite->height; i++){
     for(size_t j = 0; j < sprite->width; j++){
-      size_t index;
 
-      /*Figure out which cell we want.  First get to the right sprite:*/
-      index = sprite_size * sprite->rotation;
+      /*Figure out which cell we want.  First get the right bitmap:*/
+      const bitmap_t* bitmap = get_bitmap(sprite);
       
-      /*Then jump to the correct row:*/
-      index += (i * sprite->width);
+      /*Jump to the correct row:*/
+      size_t index = (i * sprite->width);
 
       /*And then the right column in that row:*/
       index += j;
       
-      uint8_t element = sprite->sprites_pointer[index];
+      uint8_t element = bitmap[index];
 
       if(element == 0){
 	memcpy(&(line[j*strlen(empty)]), empty, strlen(empty));
@@ -60,24 +57,24 @@ int print_sprite(const sprite_t* const sprite){
 sprite_t init_sprite(const piece_t* const piece){
 
   sprite_t sprite;
-  sprite.sprites_pointer = NULL;
+  sprite.bitmaps_p = NULL;
 
   /*Not the world's greatest way to indicate errors, but whatever.*/
   if(piece == NULL){
     return sprite;
   }
 
-  size_t sprites_size = piece->num_sprites * piece->width * piece->height;
+  size_t sprites_size = piece->num_bitmaps * piece->width * piece->height;
 
-  sprite.sprites_pointer = (sprites_t*)calloc(sprites_size, sizeof(uint8_t));
+  sprite.bitmaps_p = (bitmap_t*)calloc(sprites_size, sizeof(uint8_t));
 
-  if(sprite.sprites_pointer == NULL){
+  if(sprite.bitmaps_p == NULL){
     return sprite;
   }
 
-  memcpy(sprite.sprites_pointer, piece->sprites, sprites_size);
+  memcpy(sprite.bitmaps_p, piece->bitmaps, sprites_size);
 
-  sprite.num_sprites = piece->num_sprites;
+  sprite.num_bitmaps = piece->num_bitmaps;
   sprite.width = piece->width;
   sprite.height = piece->height;
   
@@ -97,9 +94,9 @@ void destruct_sprite(sprite_t* sprite){
     return;
   }
 
-  if(sprite->sprites_pointer != NULL){
-    free(sprite->sprites_pointer);
-    sprite->sprites_pointer = NULL;
+  if(sprite->bitmaps_p != NULL){
+    free(sprite->bitmaps_p);
+    sprite->bitmaps_p = NULL;
   }
 
   return;
@@ -112,7 +109,7 @@ void rotate_cw(sprite_t* sprite){
 
   sprite->rotation--;
 
-  sprite->rotation %= sprite->num_sprites;
+  sprite->rotation %= sprite->num_bitmaps;
 }
 
 void rotate_ccw(sprite_t* sprite){
@@ -122,6 +119,26 @@ void rotate_ccw(sprite_t* sprite){
 
   sprite->rotation++;
 
-  sprite->rotation %= sprite->num_sprites;
+  sprite->rotation %= sprite->num_bitmaps;
 }
+
+/*Returns a pointer to the current bitmap or NULL if something's wrong.  Or maybe just somewhere off of the end of memory.  It's C, you never really know.*/
+const bitmap_t* get_bitmap(const sprite_t * const s){
+  
+  if(s == NULL){
+    return NULL;
+  }
+
+  if(s->rotation > (s->num_bitmaps - 1)){
+    return NULL;
+  }
+
+  const size_t bitmap_offset = (s->width * s->height) * s->rotation;
+
+  /*Pointer aritmetic!*/
+  const bitmap_t* current_bitmap = s->bitmaps_p + bitmap_offset;
+
+  return current_bitmap;
+}
+
 

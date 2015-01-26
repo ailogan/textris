@@ -18,15 +18,15 @@
 #include "piece.h"
 
 /*Maaaaaaybe not super-thrilled about this one still.*/
-typedef uint8_t sprites_t;
+typedef uint8_t bitmap_t;
 
 typedef struct{
   color_t color;
-  size_t num_sprites;
+  size_t num_bitmaps;
   size_t width;
   size_t height;
-  sprites_t* sprites_pointer;
-  size_t rotation; /*index into the spritemap.*/
+  bitmap_t* bitmaps_p;
+  size_t rotation; /*Which bitmap is the current one?.*/
   uint8_t pos_x;
   uint8_t pos_y;
 } sprite_t;
@@ -46,5 +46,7 @@ void rotate_cw(sprite_t* sprite);
 /*Rotate counterclockwise (assumes spritemap is set up so that looking at the next-largest sprite in the spritemap rotates the sprite counterclockwise)*/
 void rotate_ccw(sprite_t* sprite);
 
+/*Returns a pointer to the current bitmap or NULL if something's wrong.  Or maybe just somewhere off of the end of memory.  It's C, you never really know.*/
+const bitmap_t* get_bitmap(const sprite_t * const s);
 
 #endif /*SPRITE_H*/

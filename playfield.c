@@ -125,15 +125,8 @@ void blit(playfield_t * const background, const sprite_t * const sprite, const u
   const size_t sprite_width = sprite->width;
   const size_t sprite_height = sprite->height;
 
-  /*Figure out the pointer to the current sprite.*/
-  /*TODO: I've got to do better than this, because blit shoudn't have to know about the weirdness of the sprite data format.  Maybe just a pointer into sprites?*/
-
-  if(sprite->rotation > (sprite->num_sprites - 1)){
-    return;
-  }
-
-  const size_t sprite_offset = (sprite_width * sprite_height) * sprite->rotation;
-
+  /*Get the pointer to the bitmap we care about.  We already know the width and height from the sprite.*/
+  const bitmap_t* bitmap = get_bitmap(sprite);
 
   /*Find the origin in the playfield*/
   size_t background_origin = (y * background->width);
@@ -155,9 +148,9 @@ void blit(playfield_t * const background, const sprite_t * const sprite, const u
 
       /*I hope you like offsets.*/
       size_t background_idx = background_origin + (y_idx * background->width) + x_idx;
-      size_t sprite_idx = sprite_offset + (sprite_y * sprite_width) + sprite_x;
+      size_t bitmap_idx = (sprite_y * sprite_width) + sprite_x;
 
-      uint8_t element = sprite->sprites_pointer[sprite_idx];
+      uint8_t element = bitmap[bitmap_idx];
 
       /*Look at the next element on our next time through.*/
       sprite_x++;

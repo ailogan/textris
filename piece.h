@@ -13,10 +13,10 @@
 typedef struct{
   const char* name;
   const color_t color;
-  const size_t num_sprites;
+  const size_t num_bitmaps;
   const size_t width;
   const size_t height;
-  const uint8_t* const sprites;
+  const uint8_t* const bitmaps;
 } piece_t;
 
 #endif /*PIECE_H*/
