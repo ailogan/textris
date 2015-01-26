@@ -9,6 +9,19 @@
 
 #include "sprite.h"
 
+pos_t init_pos(const int x, const int y){
+  pos_t p = {.x = x, .y = y};
+
+  return p;
+}
+
+pos_t copy_pos(const pos_t * const source){
+  pos_t dest = {.x = source->x, .y = source->y};
+
+  return dest;
+}
+
+
 /*Output a sprite to the screen.*/
 int print_sprite(const sprite_t* const sprite){
   const char* block = "[]";

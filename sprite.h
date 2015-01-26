@@ -17,6 +17,16 @@
 #include "color_utils.h"
 #include "piece.h"
 
+/*They said it'd never be useful!  Bwahahahahaha*/
+typedef struct{
+  int x;
+  int y;
+} pos_t;
+
+pos_t init_pos(const int x, const int y);
+
+pos_t copy_pos(const pos_t * const source);
+
 /*Maaaaaaybe not super-thrilled about this one still.*/
 typedef uint8_t bitmap_t;
 

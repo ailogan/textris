@@ -41,38 +41,107 @@ int main(){
     sprite_t sprite = init_sprite(&(textronomo[random_piece]));
     
     int collision = 0;
-    int sprite_x = 3;
-
-    int previous_sprite_y;
-    int sprite_y = -2;
+    
+    pos_t spritepos = init_pos(3,-2);
     
     do{
-      previous_sprite_y = sprite_y;
+      pos_t prior_spritepos = copy_pos(&spritepos);
+
+      spritepos.y++;
+
+      /*TODO: do something better here too.*/
+      size_t prior_rotation = sprite.rotation;
+
+      /*The world's crappiest tetris AI right here.*/
+      int move = (rand() % 10);
+
+      switch(move){
+      case 1:
+      case 2:
+	spritepos.x--;
+	break;
+	
+      case 3:
+      case 4:
+	spritepos.x++;
+	break;
+
+      case 5:
+	rotate_cw(&sprite);
+	break;
+
+      case 6:
+	rotate_ccw(&sprite);
+	break;
+
+      default:
+	break;
+	/*Yup.  40% of the time it doesn't do anything.*/
+      }
 
       playfield_t work_playfield = copy_playfield(&background_playfield);
       
-      collision = blit(&work_playfield, &sprite, sprite_x, ++sprite_y);
+      collision = blit(&work_playfield, &sprite, spritepos.x, spritepos.y);
       
       /*eg: we didn't hit a thing.*/
+      if(collision != 0){
+	/*Did we rotate and drop and hit a thing?*/
+	if(sprite.rotation != prior_rotation){
+	  sprite.rotation = prior_rotation;
+
+	  playfield_t temp_playfield = copy_playfield(&background_playfield);
+
+	  int temp_collision = blit(&temp_playfield, &sprite, spritepos.x, spritepos.y);
+	  
+	  if(temp_collision == 0){
+	    /*Rotation was illegal, but dropping is fine.*/
+	    work_playfield = copy_playfield(&temp_playfield);
+	    collision = 0;
+	  }
+
+	  /*Rotation didn't matter, so keep it at the previous one.*/
+	  destruct_playfield(&temp_playfield);
+	}
+
+	/*Did we move on the x axis and hit a thing?*/
+	if(prior_spritepos.x != spritepos.x){
+	  playfield_t temp_playfield = copy_playfield(&background_playfield);
+
+	  int temp_collision = blit(&temp_playfield, &sprite, prior_spritepos.x, spritepos.y);
+	  
+	  if(temp_collision == 0){
+	    /*Yes.  So that's not a collision?*/
+	    spritepos.x = prior_spritepos.x;
+	    work_playfield = copy_playfield(&temp_playfield);
+	    collision = 0;
+	  }
+	}	 
+      }
+
       if(collision == 0){
 	clear_screen();
 	print_playfield(&work_playfield);
       }
+
       else{
-	/*If we did hit a thing, blit the previous location into the background and don't show the new one.*/
-	blit(&background_playfield, &sprite, sprite_x, previous_sprite_y);
+	/*We still hit a thing, even after fiddling with the setup.*/
+	blit(&background_playfield, &sprite, prior_spritepos.x, prior_spritepos.y);
 	clear_screen();
 	print_playfield(&background_playfield);
-	printf("hit a thing\n");
+	
+	if(prior_spritepos.y == -2){
+	  collided_at_start = 1;
+	}
       }
-
+      
       destruct_playfield(&work_playfield);
       
       usleep(75*1000);
     }while(collision == 0);
 
-    if(previous_sprite_y == -2){
-      collided_at_start = 1;
+    printf("hit a thing\n");
+
+    if(collided_at_start != 0){
       printf("game over\n");
     }
 
