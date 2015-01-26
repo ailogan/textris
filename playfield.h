@@ -11,6 +11,7 @@
  */
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "color_utils.h"
 #include "sprite.h"
@@ -33,7 +34,6 @@ void destruct_playfield(playfield_t* const p);
 
 int print_playfield(const playfield_t* const p);
 
-void blit(playfield_t * const background, const sprite_t * const sprite, const uint8_t x, const uint8_t y);
-
+void blit(playfield_t * const background, const sprite_t * const sprite, const int8_t x, const int8_t y);
 
 #endif /*PLAYFIELD_H*/

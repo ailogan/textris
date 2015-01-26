@@ -114,9 +114,9 @@ int print_playfield(const playfield_t* const p){
 }
 
 /*Overlay sprite onto background.  Top corner of sprite goes at (x,y), x and y are both relative from the top left corner.  Modifies background.*/
-void blit(playfield_t * const background, const sprite_t * const sprite, const uint8_t x, const uint8_t y){
-  if((x > background->width) ||
-     (y > background->height)){
+void blit(playfield_t * const background, const sprite_t * const sprite, const int8_t x, const int8_t y){
+  if((x >= background->width) ||
+     (y >= background->height)){
     /*Well, there you go.*/
     return;
   }
@@ -128,26 +128,28 @@ void blit(playfield_t * const background, const sprite_t * const sprite, const u
   /*Get the pointer to the bitmap we care about.  We already know the width and height from the sprite.*/
   const bitmap_t* bitmap = get_bitmap(sprite);
 
-  /*Find the origin in the playfield*/
-  size_t background_origin = (y * background->width);
-  
   size_t sprite_y = 0;
 
-  /*Don't run off the edges of the playfield, but also don't run off the edges of the sprite.*/
-  for(int y_idx = y; y_idx < background->height; y_idx++){
+  /*Negative means "shift up"*/
+  if(y < 0 && (abs(y) <= sprite_height)){
+    sprite_y = abs(y);
+  }
+
+  /*Don't run off the edges of the playfield, but also don't run off the edges of the sprite (don't scribble memory if x or y are off the edge of the playfield).*/
+  for(int y_idx = (y < 0 ? 0 : y); y_idx < background->height; y_idx++){
     if(sprite_y >= sprite_height){
       break;
     }
 
     size_t sprite_x = 0;
 
-    for(int x_idx = x; x_idx < background->width; x_idx++){
+    for(int x_idx = (x < 0 ? 0 : x); x_idx < background->width; x_idx++){
       if(sprite_x >= sprite_width){
 	break;
       }
 
       /*I hope you like offsets.*/
-      size_t background_idx = background_origin + (y_idx * background->width) + x_idx;
+      size_t background_idx = (y_idx * background->width) + x_idx;
       size_t bitmap_idx = (sprite_y * sprite_width) + sprite_x;
 
       uint8_t element = bitmap[bitmap_idx];
