@@ -12,7 +12,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
+#include <unistd.h>
 #include <errno.h>
 
 #include "color_utils.h"
@@ -141,12 +141,9 @@ int main(){
       }
       
       destruct_playfield(&work_playfield);
+
+      usleep(75 * 1000);
       
-      struct timespec t;
-      t.tv_sec = 0;
-      t.tv_nsec = 75*1000*1000;
-      
-      nanosleep(&t, NULL);
     }while(collision == 0);
 
     printf("hit a thing\n");
