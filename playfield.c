@@ -147,7 +147,31 @@ int blit(playfield_t * const background, const sprite_t * const sprite, const in
 
     size_t sprite_x = 0;
 
-    for(int x_idx = (x < 0 ? 0 : x); x_idx < background->width; x_idx++){
+
+    /*Check for collisions with the left wall*/
+    if(x < 0){
+      for (int i = 0; i < abs(x); i++){
+	size_t bitmap_idx = (sprite_y * sprite_width) + i;
+
+	uint8_t element = bitmap[bitmap_idx];
+
+	/*A non-transparent part of the sprite would be drawn on top of the wall.*/
+	if(element != 0){
+	  collision = 1;
+	}
+      }
+    }
+
+    int x_idx;
+
+    if(x < 0){
+      x_idx = 0;
+    }
+    else{
+      x_idx = x;
+    }
+
+    for(; x_idx < background->width; x_idx++){
       if(sprite_x >= sprite_width){
 	break;
       }
@@ -174,7 +198,17 @@ int blit(playfield_t * const background, const sprite_t * const sprite, const in
 	background->playfield_pointer[background_idx] = sprite_color;
       }
     }
-    /*TODO: Figure out collisions with the walls.  Would, unfortunately, be a lot easier if the border was part of the playfield.*/
+    /*Check for collisions with the walls.  Would, unfortunately, be a lot easier if the border was part of the playfield.*/
+    if((sprite_x < sprite_width) && x_idx == background->width){
+      size_t bitmap_idx = (sprite_y * sprite_width) + sprite_x;
+      uint8_t element = bitmap[bitmap_idx];
+
+      /*A non-transparent part of the sprite would be drawn on top of the wall.*/
+      if(element != 0){
+	collision = 1;
+      }
+    }
+
     sprite_y++;
   }
   

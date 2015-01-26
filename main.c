@@ -58,25 +58,31 @@ int main(){
       switch(move){
       case 1:
       case 2:
+      case 7:
 	spritepos.x--;
+	printf("left\n");
 	break;
 	
       case 3:
       case 4:
+      case 8:
 	spritepos.x++;
+	printf("right\n");
 	break;
 
       case 5:
 	rotate_cw(&sprite);
+	printf("cw\n");
 	break;
 
       case 6:
 	rotate_ccw(&sprite);
+	printf("ccw\n");
 	break;
 
       default:
 	break;
-	/*Yup.  40% of the time it doesn't do anything.*/
+	/*Yup.  20% of the time it doesn't do anything.*/
       }
 
       playfield_t work_playfield = copy_playfield(&background_playfield);
